@@ -1,93 +1,40 @@
-# pycine
+# pycine-lite
 
-[![PyPI version](https://badge.fury.io/py/pycine.svg)](https://pypi.org/project/pycine/)
-[![GitHub license](https://img.shields.io/github/license/OTTOMATIC-IO/pyphantom.svg)](https://github.com/OTTOMATIC-IO/pyphantom/blob/master/LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/42cbb1d8fd0d4be99d802206c83b7b29)](https://app.codacy.com/app/OTTOMATIC/pycine?utm_source=github.com&utm_medium=referral&utm_content=OTTOMATIC-IO/pycine&utm_campaign=Badge_Grade_Dashboard)
+[![PyPI](https://img.shields.io/pypi/v/pycine-lite)](https://pypi.org/project/pycine-lite/)
+![PyPI - Status](https://img.shields.io/pypi/status/pycine-lite)
+![PyPI - Version](https://img.shields.io/pypi/pyversions/pycine-lite)
+![License](https://img.shields.io/github/license/tikuma-lsuhsc/pycine-lite)
 
-Reading Vision Research .cine files with python
+Reading Vision Research .cine files in Python
 
+This package is a feature-stripped version of [`pycine`](https://github.com/ottomatic-io/pycine)
+to minimize the package dependencies. Specifically, the `cli` and `color` submodules 
+have been removed from the `pycine` package.
 
 ## Installation
 
-### Release Version
-
-#### With pip
-If you have Python 3 installed you can just use `pip`:
 ```
-pip3 install -U pycine
-```
-
-### Development version
-
-```
-pip install git+https://github.com/ottomatic-io/pycine.git
+pip install -U pycine-lite
 ```
 
 ## Example usage
 
-### Changing the playback and timecode framerates
-```
-pfs_meta set --playback-fps 60/1.001 --timecode_fps 60/1.001 A001C001_190302_16001.cine
-```
+### Read `n`-frames from from `frm0`
 
-You can also set metadata for multiple clips at once:
-```
-pfs_meta set --playback-fps 24/1.001 --timecode_fps 24/1.001 *.cine
+```python
+raw_images, setup, bpp = read_frames(cine_file, start_frame=frm0, count=n)
 ```
 
-## Help
-Every command has its own help output. Just append `--help`:
+### Iteratively read frames
 
+Suppose you want to run `process_frame()` function on every frame.
+
+```python
+
+header = read_header(cine_file)
+
+n = 0
+for frm in frame_reader(cinefile, header, start_frame=frm0, count=n):
+
+    process_frame(frm)
 ```
-$ pfs_meta --help
-Usage: pfs_meta [OPTIONS] COMMAND [ARGS]...
-
-  This tool allows .cine file metadata manipulation. Use COMMAND --help for
-  more info.
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  copy  Copy metadata from a source clip
-  set   Set metadata
-  show  Show metadata
-```
-
-
-```
-$ pfs_meta set --help
-Usage: pfs_meta set [OPTIONS] [DESTINATIONS]...
-
-  Set metadata
-
-Options:
-  --temp FLOAT          Set color temperature.
-  --cc FLOAT            Set color correction.
-  --record-fps INTEGER  Set record FPS.
-  --playback-fps TEXT   Set playback FPS. Use 60 or 60/1.001 but not 59.94
-  --timecode-fps TEXT   Set timecode FPS. Use 60 or 60/1.001 but not 59.94
-  --tone TEXT           Set tone curve in the form of "[LABEL] x1 y1 x2 y2".
-                        You can set up to 32 xy points.
-  --help                Show this message and exit.
-```
-
-
-```
-$ pfs_raw --help
-Usage: pfs_raw [OPTIONS] CINE_FILE [OUT_PATH]
-
-Options:
-  --file-format [.png|.jpg|.tif]
-  --start-frame INTEGER
-  --count INTEGER
-  --version                       Show the version and exit.
-  --help                          Show this message and exit.
-```
-
-
-## Jupyter notebook
-
-Check out an example on how to use the library from a jupyter notebook:
-[notebooks/Display frames.ipynb](notebooks/Display%20frames.ipynb)

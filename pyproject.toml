@@ -4,9 +4,10 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "pycine"
+name = "pycine-lite"
 authors = [
     { name = "Ben Hagen", email = "ben@ottomatic.io" },
+    { name = "Takeshi (Kesh) Ikuma", email = "tikuma@lsuhsc.edu" },
 ]
 description = "Handle .cine files created by Vision Research Phantom® cameras"
 readme = "README.md"
@@ -21,7 +22,7 @@ requires-python = ">=3.9"
 dependencies = ["numpy"]
 
 [project.urls]
-Repository = "https://github.com/tikuma-lsuhsc/pycine"
+Repository = "https://github.com/tikuma-lsuhsc/pycine-lite"
 
 [tool.setuptools.dynamic]
 version = { attr = "pycine.__version__" }
