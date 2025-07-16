@@ -19,9 +19,13 @@ pip install -U pycine-lite
 
 ## Example usage
 
+`pycine-lite` distro package is module-compatible with the `pycine` package.
+
 ### Read `n`-frames from from `frm0`
 
 ```python
+from pycine.raw import read_frames
+
 raw_images, setup, bpp = read_frames(cine_file, start_frame=frm0, count=n)
 ```
 
@@ -31,9 +35,10 @@ Suppose you want to run `process_frame()` function on every frame.
 
 ```python
 
+from pycine.raw import read_header, frame_reader
+
 header = read_header(cine_file)
 
-n = 0
 for frm in frame_reader(cinefile, header, start_frame=frm0, count=n):
 
     process_frame(frm)
